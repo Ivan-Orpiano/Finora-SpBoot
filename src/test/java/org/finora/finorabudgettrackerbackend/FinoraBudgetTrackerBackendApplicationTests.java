@@ -9,5 +9,4 @@ class FinoraBudgetTrackerBackendApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
