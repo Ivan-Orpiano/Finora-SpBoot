@@ -1,6 +1,6 @@
 <div align="center">
 
-# Budget Tracker
+# Finora - Budget Tracker
 
 **A little ledger app that lives in the cloud — literally. Your data sits in a Google Sheet you already own.**
 
