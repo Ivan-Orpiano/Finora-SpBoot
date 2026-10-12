@@ -18,6 +18,28 @@ uniqueConstraints = @UniqueConstraint(
 
 public class Transaction {
 
+    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "owner_id", nullable = false)
+    Long ownerId;
+
+    @Column(name = "acount_id", nullable = false)
+    Long accountId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    TransactionType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    TransactionStatus status = TransactionStatus.COMPLETED;
+
+    @Column(nullable = false)
+    String category;
+
+
 
 
 
