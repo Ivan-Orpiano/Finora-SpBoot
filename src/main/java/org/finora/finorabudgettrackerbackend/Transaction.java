@@ -39,7 +39,14 @@ public class Transaction {
     @Column(nullable = false)
     String category;
 
+    @Column(nullable = false)
+    String description;
 
+    @Column(name = "transaction_date", nullable = false)
+    LocalDate date;
+
+    @Column(nullable = false, precision = 29, scale = 2)
+    BigDecimal amount;
 
 
 
