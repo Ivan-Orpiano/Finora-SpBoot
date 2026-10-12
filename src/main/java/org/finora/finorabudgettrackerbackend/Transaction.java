@@ -31,7 +31,6 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     TransactionType type;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     TransactionStatus status = TransactionStatus.COMPLETED;
@@ -48,21 +47,10 @@ public class Transaction {
     @Column(nullable = false, precision = 29, scale = 2)
     BigDecimal amount;
 
+    //Used to avoid repeated bank imports or scheduled records
+    // Null for manually entered transactions
+    @Column(name = "external_key", length = 64)
+    String externalKey;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    protected  Transaction() {}
 }
