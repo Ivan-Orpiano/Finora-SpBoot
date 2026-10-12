@@ -12,4 +12,7 @@ public class Goal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(nullable = false);
+    Long ownerId;
+
 }
