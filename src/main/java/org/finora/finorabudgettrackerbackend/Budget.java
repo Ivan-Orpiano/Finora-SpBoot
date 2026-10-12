@@ -12,5 +12,18 @@ import java.math.BigDecimal;
 )
 public class Budget {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
+    @Column(name = "owner_id", nullable = false, length =7)
+    String month;
+
+    @Column(nullable = false)
+    String category;
+
+    @Column(nullable = false, precision = 19,scale = 2)
+    BigDecimal limitAmount;
+
+    protected Budget(){}
 }
