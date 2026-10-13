@@ -43,7 +43,15 @@ interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecifica
             TransactionStatus status,
             LocalDate date
     );
-    long countByOwnerIdAndAccountID(Long ownerId, Long accountId);
+
+    boolean existByAccountIdAndExternalKey(
+      Long accountId, String externalKey
+    );
+    long countByOwnerIdAndAccountId(Long ownerId, Long accountId);
+}
+
+interface BudgetRepo extends JpaRepository<Budget, Long> {
+
 }
 
 
