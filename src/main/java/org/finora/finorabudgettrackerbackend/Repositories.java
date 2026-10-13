@@ -51,8 +51,18 @@ interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecifica
 }
 
 interface BudgetRepo extends JpaRepository<Budget, Long> {
+    List<Budget> findByOwnerIdAndMonth(Long ownerId, String month);
 
+    Optional <Budget> findByOwnerIdAndMonthCategoryIgnoreCase(
+            Long ownerId,
+            String month,
+            String catergory
+    );
 }
+
+
+
+
 
 
 
