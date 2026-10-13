@@ -10,10 +10,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
 interface UserRepo extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
     boolean existsByEmailContainingIgnoreCase(String email);
 }
+
 
 interface AccountRepo extends JpaRepository<Account, Long> {
     List<Account> findByOwnerIdOrderByNameAsc(Long ownerId);
@@ -21,10 +23,10 @@ interface AccountRepo extends JpaRepository<Account, Long> {
     long  countByOwnerId(Long ownerId);
 }
 
+
 interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
     //for User ID
     Optional<Transaction> findByIdAndOwnerId(Long id, Long ownerId);
-
 
     //for Account ID
     List<Transaction> findyOwnerIdAndAccountId(
@@ -66,6 +68,10 @@ interface GoalRepo extends JpaRepository<Goal, Long> {
 }
 
 interface RecurringRepo extends JpaRepository<RecurringRule, Long> {
+    List<RecurringRule> findByActiveTrueAndNextDueDateLessThanEqual(
+            LocalDate date
+    );
 
+    long countByOwnerIdAndAccountId(Long ownerId, Long accountId);
 }
 
