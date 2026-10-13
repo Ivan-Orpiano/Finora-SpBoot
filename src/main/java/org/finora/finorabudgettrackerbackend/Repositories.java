@@ -60,9 +60,12 @@ interface BudgetRepo extends JpaRepository<Budget, Long> {
     );
 }
 
+interface GoalRepo extends JpaRepository<Goal, Long> {
+    List<Goal> findByOwnerIdOrderByIdDesc (Long ownerId);
+    Optional<Goal> findByIdAndOwnerId(Long id, Long ownerId);
+}
 
+interface RecurringRepo extends JpaRepository<RecurringRule, Long> {
 
-
-
-
+}
 
