@@ -37,6 +37,13 @@ interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecifica
             LocalDate end,
             TransactionStatus status
     );
+
+    List<Transaction> findByOwnerIdAndStatusAndDateLessThanEqual(
+            Long ownerId,
+            TransactionStatus status,
+            LocalDate date
+    );
+    long countByOwnerIdAndAccountID(Long ownerId, Long accountId);
 }
 
 
