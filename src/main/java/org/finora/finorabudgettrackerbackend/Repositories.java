@@ -21,7 +21,23 @@ interface AccountRepo extends JpaRepository<Account, Long> {
     long  countByOwnerId(Long ownerId);
 }
 
+interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
+    //for User ID
+    Optional<Transaction> findByIdAndOwnerId(Long id, Long ownerId);
 
+
+    //for Account ID
+    List<Transaction> findyOwnerIdAndAccountId(
+            Long ownerId, Long accountId
+    );
+    // between owner's status and owner id gap
+    List<Transaction> findByOwnerIdAndDateBetweenAndStatus(
+            Long ownerId,
+            LocalDate start,
+            LocalDate end,
+            TransactionStatus status
+    );
+}
 
 
 
