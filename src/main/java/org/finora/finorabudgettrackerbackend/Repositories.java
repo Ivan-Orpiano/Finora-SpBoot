@@ -15,3 +15,13 @@ interface UserRepo extends JpaRepository<User, Long> {
     boolean existsByEmailContainingIgnoreCase(String email);
 }
 
+interface AccountRepo extends JpaRepository<Account, Long> {
+    List<Account> findByOwnerIdOrderByNameAsc(Long ownerId);
+    Optional<Account> findByAndOwnerId(Long id, Long ownerId);
+    long  countByOwnerId(Long ownerId);
+}
+
+
+
+
+
