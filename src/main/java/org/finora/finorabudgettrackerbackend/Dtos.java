@@ -86,3 +86,20 @@ record BudgetIn(
         @NotBlank String category,
         @NotNull @DecimalMin("0.01") BigDecimal limitAmount
 ){}
+
+record BudgetView(
+  Long id,
+  String category,
+  BigDecimal limitAmount,
+  BigDecimal spent,
+  BigDecimal remainnig,
+  double percentUsed,
+  boolean alert
+){}
+
+record GoalIn(
+        @NotBlank String name,
+        @NotNull @DecimalMin("0.01") BigDecimal targetAmount,
+        @NotNull @DecimalMin("0.00") BigDecimal savedAmount,
+        LocalDate deadline
+){}
