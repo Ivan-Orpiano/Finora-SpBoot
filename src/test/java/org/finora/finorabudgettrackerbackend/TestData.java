@@ -87,4 +87,21 @@ public class TestData {
         return goal;
     }
 
+     static RecurringRule recurring(Long id, Long ownerId){
+        RecurringRule rule = new RecurringRule();
+
+        rule.id = id;
+        rule.ownerId = ownerId;
+        rule.accountId = 10L;
+        rule.type = TransactionType.EXPENSE;
+        rule.frequency = Recurrence.MONTHLY;
+        rule.category = "Utilities";
+        rule.description = "Internet Bill";
+        rule.amount =amount("15000.0");
+        rule.nextDueDate = LocalDate.now();
+        rule.active = true;
+
+        return rule;
+     }
+
 }
