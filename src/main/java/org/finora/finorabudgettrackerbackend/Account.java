@@ -20,7 +20,7 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    AccessType type;
+    AccountType type;
 
     //opening balance is the starting amount in te account.
 
