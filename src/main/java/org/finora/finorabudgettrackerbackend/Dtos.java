@@ -37,3 +37,13 @@ record ProfileView(
         int alerThreshold
 ) {}
 
+record AuthView(
+        String token,
+        ProfileView profiel
+){}
+
+record AccountIn(
+   @NotBlank String name,
+   @NotNull AccountType type,
+   @NotNull BigDecimal openingBalance
+) {}
