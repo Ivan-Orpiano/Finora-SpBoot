@@ -47,3 +47,42 @@ record AccountIn(
    @NotNull AccountType type,
    @NotNull BigDecimal openingBalance
 ) {}
+
+record AccountView(
+        Long id,
+        String name,
+        AccountType type,
+        BigDecimal openingBalance,
+        BigDecimal currentBalance,
+        String currency,
+        Instant lastSyncedAt,
+        String syncStatus,
+        String syncError
+) {}
+
+record TransactionIn(
+        @NotNull Long accountId,
+        @NotNull TransactionType type,
+        TransactionStatus status,
+        @NotBlank String category,
+        String description,
+        @NotNull LocalDate date,
+        @NotNull @DecimalMin("0.01") BigDecimal amount
+){}
+
+record TransactionView(
+        Long id,
+        Long accountId,
+        Transaction type,
+        TransactionStatus status,
+        String category,
+        String description,
+        LocalDate date,
+        BigDecimal amount
+){}
+
+record BudgetIn(
+        @NotBlank String month,
+        @NotBlank String category,
+        @NotNull @DecimalMin("0.01") BigDecimal limitAmount
+){}
