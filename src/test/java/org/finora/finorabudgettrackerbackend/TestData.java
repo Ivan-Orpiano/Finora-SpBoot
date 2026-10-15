@@ -62,6 +62,29 @@ public class TestData {
         return transaction;
     }
 
+    static Budget budget(Long id, Long ownerId, String month)
+    {
+        Budget budget = new Budget();
 
+        budget.id = id;
+        budget.ownerId =  ownerId;
+        budget.month = month;
+        budget.category = "Food";
+        budget.limitAmount = amount("50000.0");
+
+        return budget;
+    }
+
+    static Goal goal (Long id, Long ownerId){
+        Goal goal = new Goal();
+
+        goal.id = id;
+        goal.ownerId = ownerId;
+        goal.name = "Keith Orpiano";
+        goal.targetAmount = amount("5000000.0");
+        goal.savedAmount = amount("10000.00");
+
+        return goal;
+    }
 
 }
