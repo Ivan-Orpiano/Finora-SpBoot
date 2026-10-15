@@ -16,7 +16,11 @@ public class Budget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "owner_id", nullable = false, length =7)
+
+    @Column(name = "owner_id", nullable = false)
+    Long ownerId;
+
+    @Column(name = "budget_month", nullable = false, length =7)
     String month;
 
     @Column(nullable = false)
