@@ -1,6 +1,8 @@
 package org.finora.finorabudgettrackerbackend;
 
 import jakarta.validation.constraints.*;
+import org.springframework.cglib.core.Local;
+
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.List;
@@ -103,3 +105,57 @@ record GoalIn(
         @NotNull @DecimalMin("0.00") BigDecimal savedAmount,
         LocalDate deadline
 ){}
+
+record GoalView(
+        Long id,
+        String name,
+        BigDecimal targetAmount,
+        BigDecimal savedAmount,
+        LocalDate deadline,
+        double percentComplete
+){}
+
+record RecurringIn(
+        @NotNull Long accountId,
+        @NotNull TransactionType type,
+        @NotNull Recurrence frequency,
+        @NotBlank String category,
+        String description,
+        @NotNull @DecimalMin("0.01") BigDecimal amount,
+        @NotNull LocalDate nextDueDate,
+        boolean active
+){}
+
+
+record RecurringView(
+        Long id,
+        Long accountId,
+        TransactionType type,
+        Recurrence frequency,
+        String category,
+        String description,
+        BigDecimal amount,
+        LocalDate nextDueDate,
+        boolean active
+) {}
+
+record ChartPoint(
+        String month,
+        BigDecimal income,
+        BigDecimal expense
+) {}
+
+record DashboardView(
+        BigDecimal totalIncome,
+        BigDecimal totalExpenses,
+        BigDecimal netCashFlow,
+        BigDecimal currentBalance,
+        BigDecimal totalSavings,
+        double savingsRate,
+        Map<String, BigDecimal> spendingByCategory,
+        List<ChartPoint> monthlyComparison,
+        List<TransactionView> recentTransactions,
+        List<BudgetView> budgets,
+        List<RecurringView> upcomingBills,
+        List<GoalView> goals
+) {}
