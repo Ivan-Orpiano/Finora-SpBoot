@@ -43,6 +43,9 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(new ImmutableSecret<>(key));
     }
 
+    @Bean
+    JwtDecoder jwtDecoder(){}
+
 
 
 }
