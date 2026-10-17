@@ -48,6 +48,11 @@ public class SecurityConfig {
         return  NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(
+            @Value("${app.frontend-origin}") String frontendOrigin
+    ) {}
+
 
 
 }
