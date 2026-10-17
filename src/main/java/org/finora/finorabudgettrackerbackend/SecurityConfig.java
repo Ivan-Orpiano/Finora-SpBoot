@@ -51,7 +51,9 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(
             @Value("${app.frontend-origin}") String frontendOrigin
-    ) {}
+    ) {
+        CorsConfiguration config = new CorsConfiguration();
+    }
 
 
 
