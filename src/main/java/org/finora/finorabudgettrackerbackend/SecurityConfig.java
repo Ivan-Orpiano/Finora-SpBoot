@@ -23,10 +23,30 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-
+        return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    SecretKey jwtKey(@Value("${app.jwt-secret}") String secret) {
+        byte [] bytes = secret.getBytes(StandardCharsets.UTF_8);
 
+        if(bytes.length < 32) {
+            throw new IllegalArgumentException(
+                    "JWT_SECRET must contain at least 32 UTF-8 bytes"
+            );
+        }
+        return  new SecretKeySpec(bytes, "HmacSHA256");
+    }
+
+    @Bean
+    JwtEncoder jwtEncoder(SecretKey key) {
+        return new NimbusJwtEncoder(new ImmutableSecret<>(key));
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder(SecretKey key){
+        return  NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
+    }
 
 
 
