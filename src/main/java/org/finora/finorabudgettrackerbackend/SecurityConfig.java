@@ -84,11 +84,9 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll().anyRequest().authenticated()
-                ).oauth2AuthorizationServer(oauth -> oauth
+                ).oauth2ResourceServer(oauth -> oauth
                         .jwt(Customizer.withDefaults())
                 )
+                .build();
     }
-
-
-
 }
