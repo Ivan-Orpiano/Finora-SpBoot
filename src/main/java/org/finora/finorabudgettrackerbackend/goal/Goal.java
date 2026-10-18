@@ -1,4 +1,4 @@
-package org.finora.finorabudgettrackerbackend;
+package org.finora.finorabudgettrackerbackend.goal;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

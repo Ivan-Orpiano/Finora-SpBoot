@@ -1,7 +1,10 @@
 package org.finora.finorabudgettrackerbackend;
 
 import jakarta.validation.constraints.*;
-import org.springframework.cglib.core.Local;
+import org.finora.finorabudgettrackerbackend.account.AccountType;
+import org.finora.finorabudgettrackerbackend.recurring.Recurrence;
+import org.finora.finorabudgettrackerbackend.transaction.Transaction;
+import org.finora.finorabudgettrackerbackend.transaction.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.*;
@@ -46,14 +49,14 @@ record AuthView(
 
 record AccountIn(
    @NotBlank String name,
-   @NotNull AccountType type,
+   @NotNull org.finora.finorabudgettrackerbackend.account.AccountType.AccountType type,
    @NotNull BigDecimal openingBalance
 ) {}
 
 record AccountView(
         Long id,
         String name,
-        AccountType type,
+        AccountType.AccountType type,
         BigDecimal openingBalance,
         BigDecimal currentBalance,
         String currency,
@@ -65,7 +68,7 @@ record AccountView(
 record TransactionIn(
         @NotNull Long accountId,
         @NotNull TransactionType type,
-        TransactionStatus status,
+        TransactionType.TransactionStatus status,
         @NotBlank String category,
         String description,
         @NotNull LocalDate date,
@@ -76,7 +79,7 @@ record TransactionView(
         Long id,
         Long accountId,
         Transaction type,
-        TransactionStatus status,
+        TransactionType.TransactionStatus status,
         String category,
         String description,
         LocalDate date,
@@ -118,7 +121,7 @@ record GoalView(
 record RecurringIn(
         @NotNull Long accountId,
         @NotNull TransactionType type,
-        @NotNull Recurrence frequency,
+        @NotNull org.finora.finorabudgettrackerbackend.recurring.Recurrence.Recurrence frequency,
         @NotBlank String category,
         String description,
         @NotNull @DecimalMin("0.01") BigDecimal amount,
@@ -131,7 +134,7 @@ record RecurringView(
         Long id,
         Long accountId,
         TransactionType type,
-        Recurrence frequency,
+        Recurrence.Recurrence frequency,
         String category,
         String description,
         BigDecimal amount,

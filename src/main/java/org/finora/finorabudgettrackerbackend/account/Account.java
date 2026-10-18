@@ -1,6 +1,8 @@
-package org.finora.finorabudgettrackerbackend;
+package org.finora.finorabudgettrackerbackend.account;
 
 import jakarta.persistence.*;
+import org.finora.finorabudgettrackerbackend.AccountType;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 

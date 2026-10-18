@@ -1,6 +1,9 @@
-package org.finora.finorabudgettrackerbackend;
+package org.finora.finorabudgettrackerbackend.transaction;
 
 import jakarta.persistence.*;
+import org.finora.finorabudgettrackerbackend.TransactionStatus;
+import org.finora.finorabudgettrackerbackend.TransactionType;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

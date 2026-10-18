@@ -1,7 +1,12 @@
 package org.finora.finorabudgettrackerbackend;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.finora.finorabudgettrackerbackend.account.Account;
+import org.finora.finorabudgettrackerbackend.budget.Budget;
+import org.finora.finorabudgettrackerbackend.goal.Goal;
+import org.finora.finorabudgettrackerbackend.recurring.RecurringRule;
+import org.finora.finorabudgettrackerbackend.transaction.Transaction;
+import org.finora.finorabudgettrackerbackend.transaction.TransactionType;
+import org.finora.finorabudgettrackerbackend.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 //jpa specification
@@ -37,12 +42,12 @@ interface TransactionRepo extends JpaRepository<Transaction, Long>, JpaSpecifica
             Long ownerId,
             LocalDate start,
             LocalDate end,
-            TransactionStatus status
+            TransactionType.TransactionStatus status
     );
 
     List<Transaction> findByOwnerIdAndStatusAndDateLessThanEqual(
             Long ownerId,
-            TransactionStatus status,
+            TransactionType.TransactionStatus status,
             LocalDate date
     );
 
