@@ -1,4 +1,4 @@
-package org.finora.finorabudgettrackerbackend;
+package org.finora.finorabudgettrackerbackend.user;
 
 import jakarta.persistence.*;
 

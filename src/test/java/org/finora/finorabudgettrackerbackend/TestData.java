@@ -1,5 +1,15 @@
 package org.finora.finorabudgettrackerbackend;
 
+import org.finora.finorabudgettrackerbackend.account.Account;
+import org.finora.finorabudgettrackerbackend.account.AccountType;
+import org.finora.finorabudgettrackerbackend.budget.Budget;
+import org.finora.finorabudgettrackerbackend.goal.Goal;
+import org.finora.finorabudgettrackerbackend.recurring.Recurrence;
+import org.finora.finorabudgettrackerbackend.recurring.RecurringRule;
+import org.finora.finorabudgettrackerbackend.transaction.Transaction;
+import org.finora.finorabudgettrackerbackend.transaction.TransactionType;
+import org.finora.finorabudgettrackerbackend.user.User;
+
 import java.math.BigDecimal;
 import  java.time.LocalDate;
 
@@ -33,14 +43,14 @@ public class TestData {
         account.id=id;
         account.ownerId = ownerId;
         account.name = "Saving Account";
-        account.type = AccountType.SAVINGS;
+        account.type = AccountType.AccountType.SAVINGS;
         account.openiningBalance = amount("10000.00");
         account.currency= "PHP";
 
         return account;
     }
 
-    static  Transaction transaction(
+    static Transaction transaction(
             Long id,
             Long ownerId,
             Long accountId,
@@ -53,7 +63,7 @@ public class TestData {
         transaction.ownerId = ownerId;
         transaction.accountId = accountId;
         transaction.type = type;
-        transaction.status = TransactionStatus.COMPLETED;
+        transaction.status = TransactionType.TransactionStatus.COMPLETED;
         transaction.category = type == TransactionType.INCOME ? "Salary" : "Food";
         transaction.description = "Test description";
         transaction.date = LocalDate.now();
@@ -94,7 +104,7 @@ public class TestData {
         rule.ownerId = ownerId;
         rule.accountId = 10L;
         rule.type = TransactionType.EXPENSE;
-        rule.frequency = Recurrence.MONTHLY;
+        rule.frequency = Recurrence.Recurrence.MONTHLY;
         rule.category = "Utilities";
         rule.description = "Internet Bill";
         rule.amount =amount("15000.0");
