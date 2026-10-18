@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -72,6 +73,20 @@ public class SecurityConfig {
     ) throws  Exception{
         return http
                 .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                ).authorizeHttpRequests(
+                        auth -> auth.requestMatchers(
+                                "/api/auth**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll().anyRequest().authenticated()
+                ).oauth2AuthorizationServer(oauth -> oauth
+                        .jwt(Customizer.withDefaults())
+                )
     }
 
 
