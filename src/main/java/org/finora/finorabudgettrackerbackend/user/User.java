@@ -33,4 +33,13 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public void updateProfile(
+        String name, String email, String currency, int threshold
+    ) {
+        this.name = name;
+        this.email = email;
+        this.preferredCurrency = currency;
+        this.alertThreshold= threshold;
+    }
+
 }
