@@ -41,5 +41,11 @@ public class User {
         this.preferredCurrency = currency;
         this.alertThreshold= threshold;
     }
+    public Long getId() {return id;}
+    public String getName(){return name;}
+    public String getEmail() {return email;}
+    public String getPasswordHash(){return passwordHash;}
+    public  String getPreferredCurrency() {return preferredCurrency;}
+    public int getAlertThreshold() {return alertThreshold;}
 
 }
