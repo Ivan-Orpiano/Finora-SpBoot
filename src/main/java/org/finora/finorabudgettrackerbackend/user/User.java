@@ -47,5 +47,4 @@ public class User {
     public String getPasswordHash(){return passwordHash;}
     public  String getPreferredCurrency() {return preferredCurrency;}
     public int getAlertThreshold() {return alertThreshold;}
-
 }
