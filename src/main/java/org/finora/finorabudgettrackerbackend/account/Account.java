@@ -1,8 +1,6 @@
 package org.finora.finorabudgettrackerbackend.account;
 
 import jakarta.persistence.*;
-import org.finora.finorabudgettrackerbackend.AccountType;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -27,7 +25,7 @@ public class Account {
     //opening balance is the starting amount in te account.
 
     @Column(nullable = false, precision = 19, scale = 2)
-    BigDecimal openiningBalance = BigDecimal.ZERO;
+    BigDecimal openingBalance = BigDecimal.ZERO;
 
     @Column(nullable = false, length = 3)
     String currency = "PHP";
@@ -40,6 +38,16 @@ public class Account {
     String syncError;
 
     protected Account() {}
+
+    public Account(
+            Long ownerId, String name, AccountType type,
+            BigDecimal openingBalance,
+            String currency
+    ) {
+        this.ownerId = ownerId;
+        update(name,type, openingBalance);
+        this.currency = currency;
+    }
 
 
 }
