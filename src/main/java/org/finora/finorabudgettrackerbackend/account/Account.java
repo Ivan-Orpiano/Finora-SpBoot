@@ -49,5 +49,27 @@ public class Account {
         this.currency = currency;
     }
 
+    public void update(
+            String name, AccountType   type, BigDecimal openingBalance
+    ) {
+        this.name = name;
+        this.type = type;
+        this.openingBalance = openingBalance;
+    }
 
+    public void updateSync(String status, String error) {
+        this.sysncStatus = status;
+        this.syncError = error;
+        this.lastSyncedAt = Instant.now();
+    }
+
+    public Long getId() { return id;}
+    public Long getOwnerId() {return ownerId;}
+    public String getName() {return name;}
+    public AccountType getType(){return type;}
+    public BigDecimal getOpeningBalance() { return  openingBalance;}
+    public String getCurrency() {return  currency;}
+    public Instant getLastSyncedAt(){return lastSyncedAt;}
+    public String getSysncStatus() { return sysncStatus;}
+    public String getSyncError() {return syncError;}
 }
