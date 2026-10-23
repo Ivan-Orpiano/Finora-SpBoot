@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.util.Currency;
 import java.util.Locale;
-import java.util.Locale;
+
 
 @RestController
 @RequestMapping("/api")
@@ -123,8 +124,88 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     public AuthResponse register(
+        @Valid @RequestBody RegisterRequest request
+    ){
+        String email = normalizeEmail(request.email());
 
-    ){}
+        if(users.existsByEmailIgnoreCase(email)){
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Email is already registered"
+            );
+        }
+        User user =  new User( request.name().trim(), email, passwordEncoder.encode(request.password()));
+        return createSession(users.save(user));
+    }
 
+    @PostMapping("/auth/login")
+    public AuthResponse login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+        User user  = users.findByEmailIgnoreCase(normalizeEmail(request.email())).orElseThrow(this::invalidCredentials);
+
+        if(!passwordEncoder.matches(
+                request.password(), user.getPasswordHash())) {
+            throw  invalidCredentials();
+        }
+        return  createSession(user);
+    }
+
+    private ResponseStatusException invalidCredentials(){
+        return new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "Invalid email or password. Please try again."
+        );
+    }
+
+    @GetMapping("/me")
+    public ProfileResponse me(
+            @AuthenticationPrincipal Jwt jwt) {
+        return toProfile(currentUser(jwt));
+    }
+
+    @PutMapping("/me")
+    @Transactional
+    public ProfileResponse updateProfile(
+            @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody ProfileRequest request){
+
+        User user = currentUser(jwt);
+        String email = normalizeEmail(request.email());
+
+        users.findByEmailIgnoreCase(email).ifPresent(other -> {
+            if(!other.getId().equals(user.getId())){
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "Email already in use"
+                );
+            }
+        });
+
+        String currency = request.preferredCurrency().trim().toUpperCase(Locale.ROOT);
+
+        //verify a real currency code instead of any three letters
+        try{
+            Currency.getInstance(currency);
+        } catch (IllegalArgumentException exception){
+            throw new IllegalArgumentException(
+                    "Invalid currency code"
+            );
+        }
+
+        //prevent mixing currencies without conversion support
+        if(!currency.equals(user.getPreferredCurrency()) &&
+                accounts.countByOwnerId(user.getId())> 0) {
+            throw new IllegalArgumentException(
+              "Cannot change currency while accounts exist"
+            );
+        }
+
+        user.updateProfile(
+                request.name().trim(),
+                email, currency, request.alertThreshold()
+        );
+        return toProfile(users.save(user));
+    }
 
 }
