@@ -32,7 +32,7 @@ public class Account {
 
     Instant lastSyncedAt;
 
-    String sysncStatus = "NEVER";
+    String syncStatus = "NEVER";
 
     @Column(length = 1000)
     String syncError;
@@ -58,7 +58,7 @@ public class Account {
     }
 
     public void updateSync(String status, String error) {
-        this.sysncStatus = status;
+        this.syncStatus = status;
         this.syncError = error;
         this.lastSyncedAt = Instant.now();
     }
@@ -70,6 +70,6 @@ public class Account {
     public BigDecimal getOpeningBalance() { return  openingBalance;}
     public String getCurrency() {return  currency;}
     public Instant getLastSyncedAt(){return lastSyncedAt;}
-    public String getSysncStatus() { return sysncStatus;}
+    public String getSyncStatus() { return syncStatus;}
     public String getSyncError() {return syncError;}
 }

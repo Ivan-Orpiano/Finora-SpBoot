@@ -19,13 +19,16 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@Configuration
 public class SecurityConfig {
 
+    //BCrypt hashes user passwords before saving them
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // create the signing key from a secure environment variable
     @Bean
     SecretKey jwtKey(@Value("${app.jwt-secret}") String secret) {
         byte [] bytes = secret.getBytes(StandardCharsets.UTF_8);
@@ -37,17 +40,19 @@ public class SecurityConfig {
         }
         return  new SecretKeySpec(bytes, "HmacSHA256");
     }
-
+    //userd when the application creates JWT tokens
     @Bean
-    JwtEncoder jwtEncoder(SecretKey key) {
+    public JwtEncoder jwtEncoder(SecretKey key) {
         return new NimbusJwtEncoder(new ImmutableSecret<>(key));
     }
 
+    //used to verify JWT Signatures and expiration
     @Bean
-    JwtDecoder jwtDecoder(SecretKey key){
+    public JwtDecoder jwtDecoder(SecretKey key){
         return  NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
     }
 
+    //user to verify JWT Signatures and expiration
     @Bean
     CorsConfigurationSource corsConfigurationSource(
             @Value("${app.frontend-origin}") String frontendOrigin
@@ -66,17 +71,19 @@ public class SecurityConfig {
         return source;
     }
 
+    //defines which API routes require authentication
     @Bean
-    SecurityFilterChain securityFilterChain(
-            HttpSecurity http
-    ) throws  Exception{
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws  Exception{
         return http
-                .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
-                ).authorizeHttpRequests(
+                )
+                .authorizeHttpRequests(
                         auth -> auth.requestMatchers(
                                 "/api/auth**",
                                 "/swagger-ui/**",
