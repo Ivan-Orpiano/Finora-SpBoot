@@ -1,6 +1,5 @@
 package org.finora.finorabudgettrackerbackend.common.exception;
 
-import org.apache.coyote.Response;
 
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,7 +13,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiErrors {
 
-        //handles invalid financial amounts and other business inputs
+    //handles invalid financial amounts and other business inputs
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> badRequest(
             IllegalArgumentException exception ) {
@@ -50,7 +49,7 @@ public class ApiErrors {
         return ResponseEntity.badRequest().body(Map.of("message", message));
     }
 
-//handles malformed json and invalid enum values
+    //handles malformed JSON and invalid enum values
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> invalidJson(
             HttpMessageNotReadableException exception
@@ -59,12 +58,4 @@ public class ApiErrors {
           Map.of("message", "Invalid JSON or Field value")
         );
     }
-
-
-
-
-
-
-
-
 }
