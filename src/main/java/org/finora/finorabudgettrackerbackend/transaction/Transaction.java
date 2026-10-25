@@ -1,8 +1,8 @@
 package org.finora.finorabudgettrackerbackend.transaction;
 
 import jakarta.persistence.*;
-import org.finora.finorabudgettrackerbackend.TransactionStatus;
-import org.finora.finorabudgettrackerbackend.TransactionType;
+import org.finora.finorabudgettrackerbackend.transaction.TransactionStatus;
+import org.finora.finorabudgettrackerbackend.transaction.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -56,4 +56,61 @@ public class Transaction {
     String externalKey;
 
     protected  Transaction() {}
+
+    public Transaction(
+        Long ownerId,
+        Long accountId,
+        TransactionType type,
+        TransactionStatus status,
+        String category,
+        String description,
+        LocalDate date,
+        BigDecimal amount,
+        String externalKey
+    ){
+        this.ownerId = ownerId;
+        this.externalKey = externalKey;
+
+        update(
+                accountId,
+                type,
+                status,
+                category,
+                description,
+                date,
+                amount
+        );
+
+    }
+
+    //changes transaction details without changing ownership
+    public void update(
+            Long accountId,
+            TransactionType type,
+            TransactionStatus status,
+            String category,
+            String description,
+            LocalDate date,
+            BigDecimal amount
+    ) {
+        this.accountId = accountId;
+        this.type = type;
+        this.status = status;
+        this.category = category;
+        this.description = description;
+        this.date = date;
+        this.amount = amount;
+    }
+
+    public Long getId(){return id;}
+    public Long getOwnerId(){return  ownerId;}
+    public Long getAccountId(){return accountId;}
+    public TransactionType getType() {return type;}
+    public TransactionStatus getStatus() {return status;}
+    public String getCategory(){return  category;}
+    public String getDescription() {return description;}
+    public LocalDate getDate(){return  date;}
+    public BigDecimal getAmount() {return amount;}
+    public String getExternalKey(){return externalKey;}
+
 }
