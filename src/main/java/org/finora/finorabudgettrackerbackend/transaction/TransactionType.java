@@ -1,12 +1,7 @@
 package org.finora.finorabudgettrackerbackend.transaction;
 
-enum TransactionType {
+// Indicates whether money comes in or goes out.
+    public enum TransactionType {
     INCOME,
     EXPENSE;
-
-    enum TransactionStatus {
-        PENDING,
-        COMPLETED,
-        CANCELED
-    }
 }
