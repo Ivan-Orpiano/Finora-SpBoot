@@ -165,8 +165,78 @@ public class TransactionService {
             List<Predicate> predicates = new ArrayList<>();
 
             //always restrict queries to the authenticated ser
-            predicates.add();
-        }
-    }
+            predicates.add(
+                    cb.equal(root.get("ownerId"), userId)
+            );
 
+            if (start != null) {
+                predicates.add(cb.greaterThanOrEqualTo(
+                        root.get("date"), start
+                ));
+            }
+
+            if (end != null) {
+                predicates.add(cb.lessThanOrEqualTo(
+                        root.get("date"), end
+                ));
+            }
+
+            if (type != null) {
+                predicates.add(cb.equal(root.get("type"), type));
+            }
+
+            if (status != null) {
+                predicates.add(cb.equal(root.get("status"), status));
+            }
+
+            if (accountId != null) {
+                predicates.add(
+                        cb.equal(root.get("accountId"), accountId)
+                );
+            }
+
+            if (category != null && !category.isBlank()) {
+                predicates.add(cb.equal(
+                        cb.lower(root.get("category")),
+                        category.toLowerCase(Locale.ROOT)
+                ));
+            }
+
+            if (search != null && !search.isBlank()) {
+                String value = "%" +
+                        search.toLowerCase(Locale.ROOT) + "%";
+
+                predicates.add(cb.or(
+                        cb.like(
+                                cb.lower(root.get("description")), value
+                        ),
+                        cb.like(
+                                cb.lower(root.get("category")), value
+                        )
+                ));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        // Whitelist sort fields to prevent invalid field access.
+        String sortField = Set.of(
+                "date", "amount", "category", "id"
+        ).contains(sort) ? sort : "date";
+
+        Sort.Direction sortDirection =
+                "asc".equalsIgnoreCase(direction)
+                        ? Sort.Direction.ASC
+                        : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(
+                Math.max(page, 0),
+                Math.max(1, Math.min(size, 100)),
+                Sort.by(sortDirection, sortField)
+                        .and(Sort.by(Sort.Direction.DESC, "id"))
+        );
+
+        return transactions.findAll(spec, pageable)
+                .map(TransactionService::toView);
+    }
 }
