@@ -108,11 +108,53 @@ public class BudgetService {
         );
 
 
-        BigDecimal spent = periodTransactions.stream().filter(tx -> tx.getType() == TransactionType.EXPENSE)
-                .filter(tx -> budg)
+        BigDecimal spent = periodTransactions.stream().filter
+                        (tx -> tx.getType() == TransactionType.EXPENSE)
+                .filter(tx -> budget.getCategory().equalsIgnoreCase(budget.getCategory()
+                 )
+                )
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        double percent = spent.multiply(BigDecimal.valueOf(100))
+                .divide(
+                        budget.getLimitAmount(),
+                        2,
+                        RoundingMode.HALF_UP
+                ).doubleValue();
 
+        User user = users.findById(userId).orElseThrow(()-> new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "User not found"
+        ));
 
-        return pass
+        return new View(
+                budget.getId(),
+                budget.getCategory(),
+                budget.getLimitAmount(),
+                spent,
+                budget.getLimitAmount().subtract(spent),
+                percent,
+                percent >= user.getAlertThreshold()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List <View> list(Long userId, String month){
+        YearMonth.parse(month);
+
+        return budgets.findByOwnerIdAndMonth(userId, month)
+                .stream()
+                .map(budget -> toView(userId, budget))
+                .toList();
+    }
+
+    public void delete(Long userId, Long id) {
+        Budget budget = budgets.findById(id)
+                .filter(b -> b.getOwnerId().equals(userId))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus. NOT_FOUND,
+                        "Budget not found"
+                ));
     }
 }
