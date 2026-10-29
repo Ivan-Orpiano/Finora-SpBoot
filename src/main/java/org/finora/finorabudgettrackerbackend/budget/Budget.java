@@ -14,20 +14,40 @@ public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
 
     @Column(name = "owner_id", nullable = false)
-    Long ownerId;
+    private Long ownerId;
 
-    @Column(name = "budget_month", nullable = false, length =7)
-    String month;
+    @Column(name = "budget_month", nullable = false, length = 7)
+    private String month;
 
     @Column(nullable = false)
-    String category;
+    private String category;
 
-    @Column(nullable = false, precision = 19,scale = 2)
-    BigDecimal limitAmount;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal limitAmount;
 
-    protected Budget(){}
+    protected Budget() {
+    }
+
+
+    public Budget(
+            Long ownerId,
+            String month,
+            String category,
+            BigDecimal limitAmount
+    ) {
+        this.ownerId = ownerId;
+        this.month = month;
+        update(category, limitAmount);
+    }
+
+    public void update(String category, BigDecimal limitAmount) {
+        this.category = category;
+        this.limitAmount = limitAmount;
+    }
+
+
 }
