@@ -50,4 +50,9 @@ public class Budget {
     }
 
 
+    public Long getId() {return id;}
+    public Long getOwnerId(){return ownerId;}
+    public String getMonth(){return  month;}
+    public String getCategory() {return category;}
+    public BigDecimal getLimitAmount(){return limitAmount;}
 }
